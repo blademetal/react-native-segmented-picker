@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, ViewStyle } from 'react-native';
 import styles from './ToolbarStyles';
 import { TEST_IDS } from '../../config/constants';
 
@@ -8,6 +8,7 @@ interface Props {
   confirmTextColor: string;
   toolbarBackground: string;
   toolbarBorderColor: string;
+  toolbarStyle: ViewStyle;
   onConfirm: () => void;
 }
 
@@ -20,6 +21,7 @@ export default ({
   confirmTextColor,
   toolbarBackground,
   toolbarBorderColor,
+  toolbarStyle,
   onConfirm,
 }: Props): ReactElement => (
   <View
@@ -28,14 +30,13 @@ export default ({
       {
         backgroundColor: toolbarBackground,
         borderBottomColor: toolbarBorderColor,
+        ...toolbarStyle,
       },
-    ]}
-  >
+    ]}>
     <TouchableOpacity
       activeOpacity={0.4}
       onPress={onConfirm}
-      testID={TEST_IDS.CONFIRM_BUTTON}
-    >
+      testID={TEST_IDS.CONFIRM_BUTTON}>
       <View style={styles.toolbarConfirmContainer}>
         <Text style={[styles.toolbarConfirmText, { color: confirmTextColor }]}>
           {confirmText}
