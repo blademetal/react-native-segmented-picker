@@ -12,6 +12,7 @@ export const defaultProps = {
   pickerItemTextColor: '#282828',
   toolbarBackgroundColor: '#FAFAF8',
   toolbarBorderColor: '#E7E7E7',
+  toolbarStyle: {},
   selectionBackgroundColor: '#F8F8F8',
   selectionBorderColor: '#C9C9C9',
   backgroundColor: '#FFFFFF',
@@ -38,31 +39,27 @@ export const propTypes = {
     }),
   ).isRequired,
   visible: PropTypes.bool,
-  defaultSelections: PropTypes.objectOf((
-    propValue,
-    key,
-    componentName,
-    location,
-    propName,
-  ) => {
-    const column = propValue[key];
-    return (column && String(column) !== column) ? (
-      new Error(
-        `Invalid prop \`${propName}\` supplied to \`${componentName}\`.`
-        + ' Must be in the format: `{column1: \'value\', column2: \'value\', ...}`',
-      )
-    ) : null;
-  }),
+  defaultSelections: PropTypes.objectOf(
+    (propValue, key, componentName, location, propName) => {
+      const column = propValue[key];
+      return column && String(column) !== column
+        ? new Error(
+            `Invalid prop \`${propName}\` supplied to \`${componentName}\`.` +
+              " Must be in the format: `{column1: 'value', column2: 'value', ...}`",
+          )
+        : null;
+    },
+  ),
   size: (props: any, propName: 'size', componentName: string) => {
     const value = props[propName];
     if (value === undefined) return null;
-    return (value < 0 || value > 1) ? (
-      new Error(
-        `Invalid prop \`${propName}\` supplied to \`${componentName}\`.`
-        + ' Must be a floating point between 0-1 representing the screen percentage to cover.'
-        + ' The default value is `0.45` (eg 45%).',
-      )
-    ) : null;
+    return value < 0 || value > 1
+      ? new Error(
+          `Invalid prop \`${propName}\` supplied to \`${componentName}\`.` +
+            ' Must be a floating point between 0-1 representing the screen percentage to cover.' +
+            ' The default value is `0.45` (eg 45%).',
+        )
+      : null;
   },
   confirmText: PropTypes.string,
   nativeTestID: PropTypes.string,
